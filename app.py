@@ -21,7 +21,7 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith("!armory token"):
+    if message.content.startswith("/token"):
         split = split_query(message.content, "wow_token")
         region = split[0]
         info = await wow_token_price(region)
@@ -46,7 +46,7 @@ async def on_message(message):
             )
             await client.send_message(message.channel, msg)
 
-    if message.content.startswith("!armory pve"):
+    if message.content.startswith("/pve"):
         split = split_query(message.content, "pve")
 
         # Assigns the 3rd index in the split to the region
@@ -103,7 +103,7 @@ async def on_message(message):
                 % (region, info["thumb"], epoch_time)
             )
             msg.set_footer(
-                text="!armory help | Feedback: https://github.com/JamesIves/discord-wow-armory-bot/issues",
+                text="©Suky 2019",
                 icon_url="https://raw.githubusercontent.com/JamesIves/discord-wow-armory-bot/master/assets/icon.png",
             )
             msg.add_field(
@@ -178,7 +178,7 @@ async def on_message(message):
             await client.send_message(message.channel, embed=msg)
 
     # Same as before, except this time it's building data for PVP.
-    if message.content.startswith("!armory pvp"):
+    if message.content.startswith("/pvp"):
         split = split_query(message.content, "pvp")
         region = split[3]
         info = await character_info(split[0], split[1], split[2], split[3])
@@ -212,7 +212,7 @@ async def on_message(message):
                 % (region, info["thumb"], epoch_time)
             )
             msg.set_footer(
-                text="!armory help | Feedback: https://github.com/JamesIves/discord-wow-armory-bot/issues",
+                text="©Suky 2019",
                 icon_url="https://github.com/JamesIves/discord-wow-armory-bot/blob/master/assets/icon.png?raw=true",
             )
             msg.add_field(
@@ -280,35 +280,6 @@ async def on_message(message):
             await client.send_message(message.channel, embed=msg)
 
     # Display a list of available commands and a set of credits.
-    if message.content.startswith("!armory help"):
-        msg = """The following commands can be entered:
-            ```
-            # Displays a players PVE progression, dungeon kills, keystone achievements, etc.
-            !armory pve <name> <realm>
-            !armory pve <armory-link>
-
-            # Displays a players PVP progression, arena ratings, honorable kills, etc.
-            !armory pvp <name> <realm>
-            !armory pvp <armory-link>
-
-            # Displays the WoW token price
-            !armory token
-
-            # You can also provide an optional region to each query to display players from other WoW regions outside of the bot default, for example EU, US, etc.
-            !armory pve <name> <realm> <region>
-            !armory pvp <armory-link> <region>
-            !armory token <region>
-
-            ```
-            • Bot created by James Ives (https://jamesiv.es)
-            • Feedback, Issues and Source: https://github.com/JamesIves/discord-wow-armory-bot/issues
-            """
-
-        msg = "%s".format(message) % re.sub(
-            r"(^[ \t]+|[ \t]+(?=:))", "", msg, flags=re.M
-        )
-        await client.send_message(message.channel, msg)
-
 
 @client.event
 async def on_ready():
@@ -319,19 +290,19 @@ async def on_ready():
         or WOW_CLIENT_SECRET == ""
     ):
         print(
-            "Missing World of Warcraft Client ID/Secret. Please refer to https://github.com/JamesIves/discord-wow-armory-bot#configuration for more details"
+            "Missing World of Warcraft Client ID/Secret. "
         )
         quit()
 
     if WOW_REGION is None or WOW_REGION == "":
         print(
-            "Missing World of Warcraft player region. Please refer to https://github.com/JamesIves/discord-wow-armory-bot#configuration for more details"
+            "Missing World of Warcraft player region"
         )
         quit()
 
     if LOCALE is None or LOCALE == "":
         print(
-            "Missing locale. Please refer to https://github.com/JamesIves/discord-wow-armory-bot#configuration for more details"
+            "Missing locale"
         )
         quit()
 
@@ -341,7 +312,7 @@ async def on_ready():
 
 if DISCORD_BOT_TOKEN is None or DISCORD_BOT_TOKEN == "":
     print(
-        "Missing Discord bot token. Please refer to https://github.com/JamesIves/discord-wow-armory-bot#configuration for more details"
+        "Missing Discord bot token"
     )
     quit()
 
